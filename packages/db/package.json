@@ -5,16 +5,19 @@
   "author": "",
   "private": true,
   "license": "UNLICENSED",
-  "main": "./src/index.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
-    ".": "./src"
+    ".": "./dist/index.js"
   },
   "scripts": {
     "generate": "npx drizzle-kit generate",
     "migrate": "npx drizzle-kit migrate",
-    "push": "npx drizzle-kit push"
+    "push": "npx drizzle-kit push",
+    "dev": "tsc --watch"
   },
   "dependencies": {
+    "@paralleldrive/cuid2": "^2.2.2",
     "dotenv": "^17.2.2",
     "drizzle-orm": "^0.44.5",
     "pg": "^8.16.3"
