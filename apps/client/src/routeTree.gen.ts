@@ -9,30 +9,24 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as HomeRouteRouteImport } from './routes/home/route'
 import { Route as SessionRouteRouteImport } from './routes/_session/route'
-import { Route as HomeIndexRouteImport } from './routes/home/index'
-import { Route as HomeAboutRouteImport } from './routes/home/about'
+import { Route as HomeRouteRouteImport } from './routes/_home/route'
+import { Route as HomeIndexRouteImport } from './routes/_home/index'
 import { Route as SessionSignUpRouteImport } from './routes/_session/sign-up'
 import { Route as SessionSignInRouteImport } from './routes/_session/sign-in'
+import { Route as HomeAboutRouteImport } from './routes/_home/about'
 
-const HomeRouteRoute = HomeRouteRouteImport.update({
-  id: '/home',
-  path: '/home',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const SessionRouteRoute = SessionRouteRouteImport.update({
   id: '/_session',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HomeRouteRoute = HomeRouteRouteImport.update({
+  id: '/_home',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HomeIndexRoute = HomeIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => HomeRouteRoute,
-} as any)
-const HomeAboutRoute = HomeAboutRouteImport.update({
-  id: '/about',
-  path: '/about',
   getParentRoute: () => HomeRouteRoute,
 } as any)
 const SessionSignUpRoute = SessionSignUpRouteImport.update({
@@ -45,58 +39,55 @@ const SessionSignInRoute = SessionSignInRouteImport.update({
   path: '/sign-in',
   getParentRoute: () => SessionRouteRoute,
 } as any)
+const HomeAboutRoute = HomeAboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => HomeRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
-  '/home': typeof HomeRouteRouteWithChildren
+  '/about': typeof HomeAboutRoute
   '/sign-in': typeof SessionSignInRoute
   '/sign-up': typeof SessionSignUpRoute
-  '/home/about': typeof HomeAboutRoute
-  '/home/': typeof HomeIndexRoute
+  '/': typeof HomeIndexRoute
 }
 export interface FileRoutesByTo {
+  '/about': typeof HomeAboutRoute
   '/sign-in': typeof SessionSignInRoute
   '/sign-up': typeof SessionSignUpRoute
-  '/home/about': typeof HomeAboutRoute
-  '/home': typeof HomeIndexRoute
+  '/': typeof HomeIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/_home': typeof HomeRouteRouteWithChildren
   '/_session': typeof SessionRouteRouteWithChildren
-  '/home': typeof HomeRouteRouteWithChildren
+  '/_home/about': typeof HomeAboutRoute
   '/_session/sign-in': typeof SessionSignInRoute
   '/_session/sign-up': typeof SessionSignUpRoute
-  '/home/about': typeof HomeAboutRoute
-  '/home/': typeof HomeIndexRoute
+  '/_home/': typeof HomeIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/home' | '/sign-in' | '/sign-up' | '/home/about' | '/home/'
+  fullPaths: '/about' | '/sign-in' | '/sign-up' | '/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/sign-in' | '/sign-up' | '/home/about' | '/home'
+  to: '/about' | '/sign-in' | '/sign-up' | '/'
   id:
     | '__root__'
+    | '/_home'
     | '/_session'
-    | '/home'
+    | '/_home/about'
     | '/_session/sign-in'
     | '/_session/sign-up'
-    | '/home/about'
-    | '/home/'
+    | '/_home/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  SessionRouteRoute: typeof SessionRouteRouteWithChildren
   HomeRouteRoute: typeof HomeRouteRouteWithChildren
+  SessionRouteRoute: typeof SessionRouteRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/home': {
-      id: '/home'
-      path: '/home'
-      fullPath: '/home'
-      preLoaderRoute: typeof HomeRouteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/_session': {
       id: '/_session'
       path: ''
@@ -104,18 +95,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SessionRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/home/': {
-      id: '/home/'
-      path: '/'
-      fullPath: '/home/'
-      preLoaderRoute: typeof HomeIndexRouteImport
-      parentRoute: typeof HomeRouteRoute
+    '/_home': {
+      id: '/_home'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof HomeRouteRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/home/about': {
-      id: '/home/about'
-      path: '/about'
-      fullPath: '/home/about'
-      preLoaderRoute: typeof HomeAboutRouteImport
+    '/_home/': {
+      id: '/_home/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof HomeIndexRouteImport
       parentRoute: typeof HomeRouteRoute
     }
     '/_session/sign-up': {
@@ -132,22 +123,15 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SessionSignInRouteImport
       parentRoute: typeof SessionRouteRoute
     }
+    '/_home/about': {
+      id: '/_home/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof HomeAboutRouteImport
+      parentRoute: typeof HomeRouteRoute
+    }
   }
 }
-
-interface SessionRouteRouteChildren {
-  SessionSignInRoute: typeof SessionSignInRoute
-  SessionSignUpRoute: typeof SessionSignUpRoute
-}
-
-const SessionRouteRouteChildren: SessionRouteRouteChildren = {
-  SessionSignInRoute: SessionSignInRoute,
-  SessionSignUpRoute: SessionSignUpRoute,
-}
-
-const SessionRouteRouteWithChildren = SessionRouteRoute._addFileChildren(
-  SessionRouteRouteChildren,
-)
 
 interface HomeRouteRouteChildren {
   HomeAboutRoute: typeof HomeAboutRoute
@@ -163,9 +147,23 @@ const HomeRouteRouteWithChildren = HomeRouteRoute._addFileChildren(
   HomeRouteRouteChildren,
 )
 
+interface SessionRouteRouteChildren {
+  SessionSignInRoute: typeof SessionSignInRoute
+  SessionSignUpRoute: typeof SessionSignUpRoute
+}
+
+const SessionRouteRouteChildren: SessionRouteRouteChildren = {
+  SessionSignInRoute: SessionSignInRoute,
+  SessionSignUpRoute: SessionSignUpRoute,
+}
+
+const SessionRouteRouteWithChildren = SessionRouteRoute._addFileChildren(
+  SessionRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
-  SessionRouteRoute: SessionRouteRouteWithChildren,
   HomeRouteRoute: HomeRouteRouteWithChildren,
+  SessionRouteRoute: SessionRouteRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

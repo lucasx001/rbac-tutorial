@@ -20,9 +20,13 @@ const node_postgres_1 = require("drizzle-orm/node-postgres");
 const pg_1 = require("pg");
 const schema = require("./schema"); // 你定义的表
 exports.schema = schema;
+const dotenv = require("dotenv");
+const node_path_1 = require("node:path");
+dotenv.config({ path: (0, node_path_1.resolve)(__dirname, "../../../.env.local") });
 // 创建连接池
 const pool = new pg_1.Pool({
     connectionString: process.env.DATABASE_URL,
+    user: process.env.DATABASE_USERNAME,
 });
 // 初始化 Drizzle client
 exports.db = (0, node_postgres_1.drizzle)(pool, { schema });
