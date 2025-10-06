@@ -10,6 +10,7 @@ import { useMutation } from "@tanstack/react-query"
 import axios from "axios"
 import { InputField } from "./form-field/input-field"
 import { LoadingButton } from "./loading-button"
+import { useAuth } from "@/providers/auth"
 
 const formSchema = z.object({
   username: z.string().min(1, "Username is required"),
@@ -22,6 +23,7 @@ interface Props {
 }
 
 export function LoginForm({ onSuccess }: Props) {
+  const auth = useAuth()
   const form = useForm<FormType>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -31,19 +33,7 @@ export function LoginForm({ onSuccess }: Props) {
   })
   const { mutate, isPending } = useMutation({
     mutationFn: async (values: FormType) => {
-      const resSchema = z.object({
-        username: z.string().min(1),
-        access_token: z.string().min(1),
-        id: z.string().min(1),
-      })
-      const resp = await axios.post("/auth/sign-in", {
-        username: values.username,
-        password: values.password,
-      })
-
-      const data = resSchema.parse(resp.data)
-
-      return data
+      return await auth.signIn(values.username, values.password)
     },
     onSuccess: (data) => {
       onSuccess?.(data.access_token)

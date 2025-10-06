@@ -2,7 +2,7 @@ import { useSession } from "@/providers/session"
 import { createFileRoute } from "@tanstack/react-router"
 
 export const Route = createFileRoute("/_home/")({
-  component: () => <Index />,
+  component: Index,
 })
 
 function Index() {

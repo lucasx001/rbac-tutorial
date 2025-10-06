@@ -35,6 +35,15 @@ export class AuthController {
     return res.json({ access_token, id, username })
   }
 
+  @Post("logout")
+  async logout(@Res() res: Response) {
+    res.clearCookie("session", this.setCookieOption)
+    return res.json({
+      code: 200,
+      message: "Logout success",
+    })
+  }
+
   @Get("verify")
   async verify(@Res() res: Response, @Cookies("session") session: string) {
     try {

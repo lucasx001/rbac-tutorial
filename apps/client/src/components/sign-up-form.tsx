@@ -13,6 +13,7 @@ import { useForm } from "react-hook-form"
 import { useMutation } from "@tanstack/react-query"
 import axios from "axios"
 import { LoadingButton } from "./loading-button"
+import { useAuth } from "@/providers/auth"
 
 const formSchema = z
   .object({
@@ -33,6 +34,7 @@ interface Props {
 export function SignUpForm({ onSuccess }: Props) {
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const auth = useAuth()
 
   const form = useForm<FormType>({
     resolver: zodResolver(formSchema),
@@ -45,19 +47,7 @@ export function SignUpForm({ onSuccess }: Props) {
 
   const { mutate, isPending } = useMutation({
     mutationFn: async (values: FormType) => {
-      const resSchema = z.object({
-        username: z.string().min(1),
-        access_token: z.string().min(1),
-        id: z.string().min(1),
-      })
-      const resp = await axios.post("/auth/sign-up", {
-        username: values.username,
-        password: values.password,
-      })
-
-      const data = resSchema.parse(resp.data)
-
-      return data
+      return auth.signUp(values.username, values.password)
     },
     onSuccess: (data) => {
       onSuccess?.(data.access_token)
