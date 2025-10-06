@@ -8,8 +8,23 @@ import "./style.css"
 import "./api"
 import { AuthProvider, useAuth } from "./providers/auth"
 
+const defaultSignInUpResult = {
+  access_token: "",
+  id: "",
+  username: "",
+}
 // Create a new router instance
-const router = createRouter({ routeTree, context: { auth: { session: null } } })
+const router = createRouter({
+  routeTree,
+  context: {
+    auth: {
+      session: null,
+      signIn: () => Promise.resolve(defaultSignInUpResult),
+      signUp: () => Promise.resolve(defaultSignInUpResult),
+      logout: () => Promise.resolve(),
+    },
+  },
+})
 // Register the router instance for type safety
 declare module "@tanstack/react-router" {
   interface Register {

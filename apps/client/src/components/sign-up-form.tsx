@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Eye, EyeOff, User, Lock } from "lucide-react"
 import { Link } from "@tanstack/react-router"
@@ -11,7 +10,6 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { useForm } from "react-hook-form"
 import { useMutation } from "@tanstack/react-query"
-import axios from "axios"
 import { LoadingButton } from "./loading-button"
 import { useAuth } from "@/providers/auth"
 
