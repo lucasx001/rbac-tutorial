@@ -11,7 +11,6 @@ function SignUp() {
       <div className="w-full max-w-sm">
         <SignUpForm
           onSuccess={(token) => {
-            console.log("success sign up", token)
             window.location.reload()
           }}
         />

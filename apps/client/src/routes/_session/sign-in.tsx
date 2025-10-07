@@ -11,7 +11,6 @@ function SignIn() {
       <div className="w-full max-w-sm">
         <LoginForm
           onSuccess={(token) => {
-            console.log("success sign in", token)
             window.location.reload()
           }}
         />

@@ -3,6 +3,7 @@ import { AuthService } from "./auth.service"
 import { CreateAuthDto } from "@repo/shared"
 import type { CookieOptions, Response } from "express"
 import { Cookies } from "@/decorators/cookies"
+import { Public } from "@/decorators/is_public"
 
 @Controller("auth")
 export class AuthController {
@@ -18,6 +19,7 @@ export class AuthController {
 
   @HttpCode(HttpStatus.OK)
   @Post("sign-in")
+  @Public()
   async signIn(@Body() signInDto: CreateAuthDto, @Res() res: Response) {
     const { access_token, id, username } = await this.authService.signIn(signInDto.username, signInDto.password)
     res.cookie("session", access_token, this.setCookieOption)
@@ -27,6 +29,7 @@ export class AuthController {
 
   @HttpCode(HttpStatus.CREATED)
   @Post("sign-up")
+  @Public()
   async signUp(@Body() signUpDto: CreateAuthDto, @Res() res: Response) {
     const { access_token, id, username } = await this.authService.signUp(signUpDto.username, signUpDto.password)
 
@@ -45,6 +48,7 @@ export class AuthController {
   }
 
   @Get("verify")
+  @Public()
   async verify(@Res() res: Response, @Cookies("session") session: string) {
     try {
       const payload = await this.authService.verify(session)

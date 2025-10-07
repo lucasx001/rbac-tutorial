@@ -11,8 +11,6 @@ export default defineConfig(({ mode }) => {
   const root = path.resolve(__dirname, "../../")
   const env = loadEnv(mode, root, "")
 
-  console.log(env)
-
   return {
     plugins: [
       // Please make sure that '@tanstack/router-plugin' is passed before '@vitejs/plugin-react'

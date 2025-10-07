@@ -11,8 +11,6 @@ async function bootstrap() {
     },
   })
 
-  console.log(process.env)
-
   app.use(cookieParser())
   app.enableCors({
     origin: process.env.VITE_CLIENT_URL ?? "https://localhost:5173", // 前端地址
