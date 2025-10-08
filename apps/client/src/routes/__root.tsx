@@ -11,7 +11,7 @@ export const Route = createRootRouteWithContext<RootRouteContext>()({
 
 function RootComponent() {
   return (
-    <div className="w-screen min-h-screen bg-accent">
+    <div className="w-screen h-screen bg-accent">
       <Outlet />
     </div>
   )

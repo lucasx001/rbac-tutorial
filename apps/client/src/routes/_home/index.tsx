@@ -10,8 +10,8 @@ function Index() {
   const { username } = useSession()
 
   return (
-    <div className="p-2">
-      <h3>Welcome Home! {username}</h3>
+    <div className="flex-1">
+      <h1 className="text-2xl font-bold text-center">Welcome Home! {username}</h1>
       <ChatExample />
     </div>
   )

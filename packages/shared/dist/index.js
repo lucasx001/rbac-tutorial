@@ -17,4 +17,5 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./user.dto"), exports);
 __exportStar(require("./auth.dto"), exports);
 __exportStar(require("./jwt"), exports);
+__exportStar(require("./prompt"), exports);
 //# sourceMappingURL=index.js.map
